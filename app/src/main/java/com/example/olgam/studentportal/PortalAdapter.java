@@ -1,6 +1,6 @@
 package com.example.olgam.studentportal;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,14 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PortalAdapter extends RecyclerView.Adapter <PortalAdapter.PortalViewHolder> {
     //fields
-    private  List<Portal> listPortal;
-    private Context context;
+    private final List<Portal> listPortal;
     final private PortalClickListener mPortalClickListener;
     private static final String Tag = "TAG";
 
@@ -24,23 +21,24 @@ public class PortalAdapter extends RecyclerView.Adapter <PortalAdapter.PortalVie
     }
     //constructor
 
-    public PortalAdapter(Context context, List<Portal> listPortal, PortalClickListener mPortalClickListener) {
-        this.context = context;
+    PortalAdapter(List<Portal> listPortal, PortalClickListener mPortalClickListener)
+    {
+        //Context context1 = context;
         this.listPortal = listPortal;
         this.mPortalClickListener = mPortalClickListener;
     }
 
+    @NonNull
     @Override
-    public PortalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PortalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_cell, parent, false);
         return new PortalViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(PortalViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PortalViewHolder holder, int position) {
         final Portal portal = listPortal.get(position);
         holder.portalName.setText(portal.getmPortalName());
-        //holder.portalLink.setText(portal.getmLink());
     }
 
     @Override
@@ -52,15 +50,13 @@ public class PortalAdapter extends RecyclerView.Adapter <PortalAdapter.PortalVie
     }
 
     public class PortalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView portalName;
+        final TextView portalName;
         public TextView portalLink;
         public View view;
 
-        public PortalViewHolder(View itemView) {
+        PortalViewHolder(View itemView) {
             super(itemView);
             portalName = itemView.findViewById(R.id.textViewName);
-            //portalLink = itemView.findViewById(R.id.textViewLink);
-            //view = itemView;
             itemView.setOnClickListener(this);
         }
         @Override

@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,13 +22,12 @@ import static com.example.olgam.studentportal.PortalAdapter.*;
 
 public class MainActivity extends AppCompatActivity implements PortalClickListener {
 
-    private EditText mNewPortalText;
-    private EditText mNewPortalLink;
+    //private EditText mNewPortalText;
+    //private EditText mNewPortalLink;
     private PortalAdapter mAdapter;
     private List<Portal> mPortals;
     private RecyclerView mPortalRecyclerView;
-    public static final String Tag = "TAG";
-    public static final String EXTRA_PORTAL = "Portal";
+    private static final String Tag = "TAG";
 
 
     @Override
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mNewPortalText = findViewById(R.id.editPortalName);
-        mNewPortalLink = findViewById(R.id.editPortalLink);
+        EditText mNewPortalText = findViewById(R.id.editPortalName);
+        EditText mNewPortalLink = findViewById(R.id.editPortalLink);
         mPortals = new ArrayList<>();
 
         mPortalRecyclerView = findViewById(R.id.recyclerView);
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
         ((GridLayoutManager) mLayoutManager).setSpanCount(3);
 
         mPortalRecyclerView.setLayoutManager(mLayoutManager);
-        final PortalAdapter mAdapter = new PortalAdapter(this, mPortals, this);
+        final PortalAdapter mAdapter = new PortalAdapter(mPortals, this);
 
         mPortalRecyclerView.setAdapter(mAdapter);
         for (int i = 0; i < Portal.PRE_DEFINED_PORTAL_NAMES.length; i++) {
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
                     Portal.PRE_DEFINED_PORTAL_LINKS[i]));
         }
 
-        Log.e(Tag, "mPortals[3]=" + mPortals.get(3).getmLink());
         //CRUD: Create new portal
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
 
     //Open and view link defined as portal in new activity
     public void portalOnClick(int i) {
-        Log.e(Tag, "now in portalOnClick, i=" + i);
         if (mPortals == null)
             Log.e(Tag, "mPortals is null!!");
         Intent intent = new Intent(MainActivity.this, WebviewActivity.class);
@@ -83,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
         if (resultCode == Activity.RESULT_OK) {
             //Check if the request code is correct
             if (requestCode == 1234) {
-                //Intent result = getIntent();
                 Bundle extras = result.getExtras();
                 String newPortalName = extras.getString("Name");
                 String newPortalLink = extras.getString("Link");
@@ -97,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
     private void updateUI() {
         if (mAdapter == null) {
             Log.e(Tag, "mAdapter was null, creating new PortalAdapter");
-            mAdapter = new PortalAdapter(this, mPortals, this);
+            mAdapter = new PortalAdapter(mPortals, this);
             Log.e(Tag, "new PortalAdapter with Portals: " + mPortals);
             mPortalRecyclerView.setAdapter(mAdapter);
         } else {
@@ -105,5 +101,27 @@ public class MainActivity extends AppCompatActivity implements PortalClickListen
             mAdapter.notifyDataSetChanged();
         }
     }
+    //MENU
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 

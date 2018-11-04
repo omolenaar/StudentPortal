@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">StudentPortal</string>
     <string name="action_settings">Settings</string>
+    <string name="portalNameHint">name of the portal</string>
+    <string name="linkHint">url</string>
+    <string name="linkStart">https://www.</string>
 </resources>

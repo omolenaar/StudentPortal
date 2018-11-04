@@ -13,19 +13,21 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="name"
+        android:hint="@string/portalNameHint"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/editPortalLink"
-        app:layout_constraintStart_toStartOf="@+id/editPortalLink" />
+        app:layout_constraintStart_toStartOf="@+id/editPortalLink"
+         />
 
     <EditText
         android:id="@+id/editPortalLink"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="link"
+        android:hint="@string/linkHint"
         android:inputType="text|textUri"
-        android:text="https://www."
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:text="@string/linkStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+         />
 
 </android.support.constraint.ConstraintLayout>
